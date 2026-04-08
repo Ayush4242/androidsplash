@@ -1,0 +1,94 @@
+package com.example.Ca1
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+
+class Ca1 : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            App()
+        }
+    }
+}
+@Composable
+fun App() {
+
+    var splash by remember { mutableStateOf(true) }
+
+    if (splash) {
+        ShowSplash {
+            splash = false
+        }
+    } else {
+        ShowData()
+    }
+}
+@Composable
+fun ShowSplash(onDismiss: () -> Unit) {
+
+    LaunchedEffect(Unit) {
+        delay(2000)
+        onDismiss()
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text("Weather App")
+    }
+}
+@Composable
+fun ShowData() {
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        item {
+
+            LazyRow {
+
+                items(
+                    listOf(
+                        listOf("Sunday", "21°C", "1 o'clock"),
+                        listOf("Monday", "22°C", "2 o'clock"),
+                        listOf("Tuesday", "23°C", "3 o'clock"),
+                        listOf("Wednesday", "24°C", "4 o'clock"),
+                        listOf("Thursday", "25°C", "5 o'clock"),
+                        listOf("Friday", "25°C", "5 o'clock"),
+                        listOf("Saturday", "25°C", "6 o'clock")
+                    )
+                ) { list ->
+
+                    Column(
+                        modifier = Modifier.padding(10.dp)
+                    ) {
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(list[0])
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(list[1])
+
+                        Spacer(modifier = Modifier.height(5.dp))
+
+                        Text(list[2])
+                    }
+                }
+            }
+        }
+    }
+}
